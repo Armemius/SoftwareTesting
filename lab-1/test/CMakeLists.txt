@@ -13,6 +13,13 @@ add_executable(test_maths
 )
 target_link_libraries(test_maths PRIVATE GTest::gtest_main maths)
 
+# Sorting tests
+add_executable(test_bubble_sorting
+    test_bubble_sorting.cpp
+)
+target_link_libraries(test_bubble_sorting PRIVATE GTest::gtest_main sorting)
+
 # Setup testing integration
 enable_testing()
 add_test(NAME MathTests COMMAND test_maths)
+add_test(NAME BubbleSortingTests COMMAND test_bubble_sorting)
