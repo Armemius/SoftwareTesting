@@ -17,3 +17,11 @@ file(GLOB_RECURSE SORT_SOURCES_LIST CONFIGURE_DEPENDS
 )
 add_library(sorting ${SORT_SOURCES_LIST} ${SORT_HEADER_LIST})
 target_include_directories(sorting PUBLIC ${TestingLab1_SOURCE_DIR}/include)
+
+# Domain model library
+file(GLOB_RECURSE DOMAIN_HEADER_LIST CONFIGURE_DEPENDS
+    ${TestingLab1_SOURCE_DIR}/include/domain/*.hpp
+)
+add_library(domain INTERFACE)
+target_sources(domain INTERFACE ${DOMAIN_HEADER_LIST})
+target_include_directories(domain INTERFACE ${TestingLab1_SOURCE_DIR}/include)

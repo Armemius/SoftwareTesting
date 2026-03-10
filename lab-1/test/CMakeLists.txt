@@ -19,7 +19,14 @@ add_executable(test_bubble_sorting
 )
 target_link_libraries(test_bubble_sorting PRIVATE GTest::gtest_main sorting)
 
+# Domain model tests
+add_executable(test_domain_model
+    test_domain_model.cpp
+)
+target_link_libraries(test_domain_model PRIVATE GTest::gtest_main domain)
+
 # Setup testing integration
 enable_testing()
 add_test(NAME MathTests COMMAND test_maths)
 add_test(NAME BubbleSortingTests COMMAND test_bubble_sorting)
+add_test(NAME DomainModelTests COMMAND test_domain_model)
