@@ -152,6 +152,33 @@ constexpr float sec(T x, size_t terms = DEFAULT_TERMS<T>) {
     \item Проверка что при использовании типа double сохраняется точность как минимум до 5-ти знаков после запятой
     \item Проверка что при использовании типа long double сохраняется точность как минимум до 7-ми знаков после запятой
 \end{itemize}
+\subsubsection*{Таблица используемых и ожидаемых значений}
+\begin{center}
+\begin{tabular}{|p{5.2cm}|p{5.0cm}|p{5.2cm}|}
+\hline
+\textbf{Класс эквивалентности} & \textbf{Используемые значения} & \textbf{Ожидаемое значение / поведение} \\
+\hline
+Точки разрыва $x=\frac{\pi}{2}+\pi k$ & $-\frac{\pi}{2}$, $\frac{\pi}{2}$, $\frac{3\pi}{2}$ & \texttt{NaN} \\
+\hline
+Окрестность точек разрыва & $-\frac{\pi}{2}\pm\varepsilon$, $\frac{\pi}{2}\pm\varepsilon$ & Значение определено (не \texttt{NaN}) \\
+\hline
+Точки экстремума $x=\pi k$ & $-\pi$ \break $0$ \break $\pi$ & $-1$ \break $1$ \break $-1$ \\
+\hline
+Интервал возрастания $x\in(0,\frac{\pi}{2})$ & $0.228$ \break $0.322$ \break $1.337$ & $1.02656714459$, $1.05418023973$, $4.31644314933$ \\
+\hline
+Интервал убывания $x\in(\frac{\pi}{2},\pi)$ & $1.7$ \break $1.812$ \break $2.28$ & $-7.76129399605$, $-4.18634900555$, $-1.53555659487$ \\
+\hline
+Интервал возрастания $x\in(\pi,\frac{3\pi}{2})$ & $3.22$ \break $4.2$ \break $4.6$ & $-1.00308174955$, $-2.03973060149$, $-8.91642861136$ \\
+\hline
+Интервал убывания $x\in(\frac{3\pi}{2},2\pi)$ & $4.88$ \break $5.0$ \break $5.13$ & $5.99422183928$, $3.52532008582$, $2.46561733623$ \\
+\hline
+Периодичность функции $T=2\pi$ & $x_0=0.1459$, $x_0\pm20\pi$ & $\sec(x)=\sec(x_0)$ \\
+\hline
+Специальные значения с плавающей точкой & $+\infty$, $-\infty$, \texttt{NaN} & \texttt{NaN} \\
+\hline
+\end{tabular}
+\end{center}
+
 Реализация тестов:
 \begin{minted}[fontsize=\small, frame=lines, linenos]{cpp}
 #include <gtest/gtest.h>
@@ -353,6 +380,60 @@ TEST(BubbleSortTest, HandlesSingleElement) {
     \item Соответствие ожидаемым результатам при соответствие потоку событий в исходном тексте
     \item Проверка корректности причино-следственной связи
     \item Проверка правильной интерпретации числовых значений для категориальных признаков
+\end{itemize}
+\subsubsection*{Схема конечного автомата доменной модели}
+\begin{itemize}
+    \item $S_0$: исходное состояние (волосы неподвижны, восприятие отсутствует, причина не определена)
+    \item $S_1$: параметры движения заданы (\texttt{beginMovingToConsole})
+    \item $S_2$: зафиксировано иллюзорное шевеление волос, причина --- эффект наезда камеры
+    \item $S_3$: событие не произошло, причина осталась не определена
+\end{itemize}
+
+\noindent Условия переходов:
+\begin{itemize}
+    \item $G_1$: \texttt{shot.isDollyIn() == true}
+    \item $G_2$: \texttt{movement.isSlow() == true}
+    \item $G_3$: \texttt{movement.isSteadyApproach() == true}
+\end{itemize}
+
+\begin{verbatim}
+S0 -- beginMovingToConsole --> S1
+S1 -- processFilmingScene [G1 && G2 && G3] --> S2
+S1 -- processFilmingScene [!(G1 && G2 && G3)] --> S3
+
+S2: Hair=MOVING, Perception=HAIR_STIRRING(illusory), Cause=CAMERA_EFFECT
+S3: Hair=STILL,  Perception=NONE,                    Cause=UNDETERMINED
+\end{verbatim}
+
+\subsubsection*{Какие этапы и переходы покрыты тестами}
+\begin{center}
+\begin{tabular}{|p{6.8cm}|p{8.0cm}|}
+\hline
+\textbf{Этап / переход автомата} & \textbf{Тесты, которые это проверяют} \\
+\hline
+$S_0 \rightarrow S_1$ (задание движения к пульту) & \texttt{BaseScenarioResolvesToCameraEffect}, \texttt{NoCameraDollyNoIllusoryPerception}, \texttt{InferenceCauseIsCameraEffectWhenEventOccurs}, \texttt{CognitiveStatesFollowExpectedOrder}, \texttt{ImmaterialHeadScenarioRemainsNarrativelyConsistent} \\
+\hline
+Проверка охранного условия $G_2$ (медленное движение, граничное значение включено) & \texttt{SlowBoundaryIsInclusive} \\
+\hline
+Проверка охранного условия $G_3$ (неуклонное сближение выполняется) & \texttt{MovementSteadyApproachIsDetected} \\
+\hline
+Проверка охранного условия $G_3$ (нарушение монотонности отклоняется) & \texttt{NonMonotonicApproachIsRejected} \\
+\hline
+$S_1 \rightarrow S_2$ при $G_1 \wedge G_2 \wedge G_3$ & \texttt{BaseScenarioResolvesToCameraEffect}, \texttt{InferenceCauseIsCameraEffectWhenEventOccurs}, \texttt{CognitiveStatesFollowExpectedOrder}, \texttt{ImmaterialHeadScenarioRemainsNarrativelyConsistent} \\
+\hline
+Внутренние когнитивные этапы в $S_2$: \texttt{SURPRISED -> REASONING -> CONCLUDED} & \texttt{CognitiveStatesFollowExpectedOrder} \\
+\hline
+$S_1 \rightarrow S_3$ при $\neg(G_1 \wedge G_2 \wedge G_3)$ (ветка ``не наезд камеры'') & \texttt{NoCameraDollyNoIllusoryPerception} \\
+\hline
+Инвариант предметной области (бесплотная голова не приводит к физической причине) & \texttt{ImmaterialHeadScenarioRemainsNarrativelyConsistent} \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{Переходы вне текущего покрытия}
+\begin{itemize}
+    \item Переход в $S_3$ при активном \texttt{DOLLY\_IN}, но нарушении только условия $G_2$ (слишком быстрое движение), явно не проверяется.
+    \item Переход в $S_3$ при \texttt{distance\_trace} длины меньше 2 (условие $G_3$ ложно), явно не проверяется.
 \end{itemize}
 Реализованные тесты:
 \begin{minted}[fontsize=\small, frame=lines, linenos]{cpp}
