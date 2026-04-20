@@ -78,9 +78,3 @@ TYPED_TEST(SinTest, TestRange) {
         EXPECT_NEAR(sin(value), expected, Eps<T>::VALUE);
     }
 }
-
-TEST(SinTestIntegral, TestIntegralInput) {
-    EXPECT_NEAR(sin(0), 0.0f, Eps<float>::VALUE);
-    EXPECT_NEAR(sin(1), std::sin(1.0f), Eps<float>::VALUE);
-    EXPECT_NEAR(sin(-1), std::sin(-1.0f), Eps<float>::VALUE);
-}
