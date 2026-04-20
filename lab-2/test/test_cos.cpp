@@ -22,7 +22,58 @@ inline constexpr auto SIN_PTR = static_cast<T (*)(T, size_t)>(arms::maths::sin);
 
 constexpr auto SIN_FLOAT_PTR = static_cast<float (*)(float, size_t)>(arms::maths::sin);
 
-TYPED_TEST(CosTest, TestInfinityAndNan) {
+template <typename T>
+struct XY {
+    T x;
+    T y;
+};
+
+TYPED_TEST(CosTest, EquivalenceClassFiniteValuesReferenceTable) {
+    using T = TypeParam;
+    constexpr XY<T> CASES[] = {
+        {static_cast<T>(-4.8), static_cast<T>(0.0874989834394464)},
+        {static_cast<T>(-2.1), static_cast<T>(-0.5048461045998576)},
+        {static_cast<T>(-0.8), static_cast<T>(0.6967067093471654)},
+        {static_cast<T>(-0.1), static_cast<T>(0.9950041652780258)},
+        {static_cast<T>(0.1), static_cast<T>(0.9950041652780258)},
+        {static_cast<T>(0.8), static_cast<T>(0.6967067093471654)},
+        {static_cast<T>(2.1), static_cast<T>(-0.5048461045998576)},
+        {static_cast<T>(4.8), static_cast<T>(0.0874989834394464)},
+    };
+
+    for (const auto& c : CASES) {
+        EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(c.x)), c.y, Eps<T>::VALUE);
+    }
+}
+
+TYPED_TEST(CosTest, EquivalenceClassPeriodicity) {
+    using T = TypeParam;
+    constexpr T X = static_cast<T>(0.2357);
+    constexpr auto PI = std::numbers::pi_v<T>;
+    constexpr auto PERIOD = static_cast<T>(2) * PI;
+
+    EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(X)), (arms::maths::cos<T, SIN_PTR<T>>(X + PERIOD * 10)), Eps<T>::VALUE);
+    EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(X)), (arms::maths::cos<T, SIN_PTR<T>>(X - PERIOD * 10)), Eps<T>::VALUE);
+}
+
+TYPED_TEST(CosTest, EquivalenceClassEvenSymmetry) {
+    using T = TypeParam;
+    constexpr T X = static_cast<T>(0.7345);
+
+    EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(X)), (arms::maths::cos<T, SIN_PTR<T>>(-X)), Eps<T>::VALUE);
+}
+
+TYPED_TEST(CosTest, BoundaryCharacteristicPoints) {
+    using T = TypeParam;
+    constexpr auto PI = std::numbers::pi_v<T>;
+
+    EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(static_cast<T>(0.0))), static_cast<T>(1.0), Eps<T>::VALUE);
+    EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(PI / 2)), static_cast<T>(0.0), Eps<T>::VALUE);
+    EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(PI)), static_cast<T>(-1.0), Eps<T>::VALUE);
+    EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(static_cast<T>(2) * PI)), static_cast<T>(1.0), Eps<T>::VALUE);
+}
+
+TYPED_TEST(CosTest, BoundaryNanAndInfinity) {
     using T = TypeParam;
     constexpr auto INF = std::numeric_limits<T>::infinity();
     constexpr auto NaN = std::numeric_limits<T>::quiet_NaN();
@@ -32,27 +83,8 @@ TYPED_TEST(CosTest, TestInfinityAndNan) {
     EXPECT_TRUE((std::isnan(arms::maths::cos<T, SIN_PTR<T>>(NaN))));
 }
 
-TYPED_TEST(CosTest, TestCharacteristicPoints) {
-    using T = TypeParam;
-    constexpr auto PI = std::numbers::pi_v<T>;
-
-    EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(static_cast<T>(0.0))), static_cast<T>(1.0), Eps<T>::VALUE);
-    EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(PI / 2)), static_cast<T>(0.0), Eps<T>::VALUE);
-    EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(PI)), static_cast<T>(-1.0), Eps<T>::VALUE);
-    EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(2 * PI)), static_cast<T>(1.0), Eps<T>::VALUE);
-}
-
-TYPED_TEST(CosTest, TestRangeAgainstStdCos) {
-    using T = TypeParam;
-    constexpr T VALUES[] = {
-        static_cast<T>(-4.6), static_cast<T>(-1.3), static_cast<T>(-0.228),
-        static_cast<T>(0.228), static_cast<T>(0.322), static_cast<T>(1.337),
-        static_cast<T>(1.7), static_cast<T>(2.28), static_cast<T>(3.22),
-        static_cast<T>(4.2), static_cast<T>(5.13)
-    };
-
-    for (const T value : VALUES) {
-        const auto expected = static_cast<T>(std::cos(static_cast<long double>(value)));
-        EXPECT_NEAR((arms::maths::cos<T, SIN_PTR<T>>(value)), expected, Eps<T>::VALUE);
-    }
+TEST(CosTestIntegral, EquivalenceClassIntegralOverload) {
+    EXPECT_NEAR((arms::maths::cos<int, SIN_FLOAT_PTR>(0)), 1.0f, Eps<float>::VALUE);
+    EXPECT_NEAR((arms::maths::cos<int, SIN_FLOAT_PTR>(1)), 0.5403023058681398f, Eps<float>::VALUE);
+    EXPECT_NEAR((arms::maths::cos<int, SIN_FLOAT_PTR>(-1)), 0.5403023058681398f, Eps<float>::VALUE);
 }

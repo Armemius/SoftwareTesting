@@ -62,10 +62,21 @@ constexpr auto TAN_FLOAT_PTR = tan_from_sin_cos<float>;
 constexpr auto LOG3_FLOAT_PTR = log3_from_ln<float>;
 constexpr auto LOG5_FLOAT_PTR = log5_from_ln<float>;
 
-TYPED_TEST(ComplexTest, TestLeftBranchEqualsTanForNonPositiveX) {
+template <typename T>
+struct XY {
+    T x;
+    T y;
+};
+
+TYPED_TEST(ComplexTest, EquivalenceClassLeftBranchNonPositiveX) {
     using T = TypeParam;
-    constexpr T VALUES[] = {static_cast<T>(0.0), static_cast<T>(-0.2), static_cast<T>(-0.7), static_cast<T>(-1.3),
-                            static_cast<T>(-3.2)};
+    constexpr T VALUES[] = {
+        static_cast<T>(0.0),
+        static_cast<T>(-0.2),
+        static_cast<T>(-0.7),
+        static_cast<T>(-1.3),
+        static_cast<T>(-3.2),
+    };
 
     for (const T value : VALUES) {
         const T expected = tan_from_sin_cos<T>(value, arms::maths::defaults::DEFAULT_TERMS<T>);
@@ -78,57 +89,68 @@ TYPED_TEST(ComplexTest, TestLeftBranchEqualsTanForNonPositiveX) {
     }
 }
 
-TYPED_TEST(ComplexTest, TestLeftBranchDiscontinuityPoint) {
+TYPED_TEST(ComplexTest, EquivalenceClassRightBranchPositiveXLessThanOne) {
+    using T = TypeParam;
+    constexpr XY<T> CASES[] = {
+        {static_cast<T>(0.15), static_cast<T>(8.077706918393678)},
+        {static_cast<T>(0.25), static_cast<T>(5.195413305514769)},
+        {static_cast<T>(0.5), static_cast<T>(2.297322910057771)},
+        {static_cast<T>(0.75), static_cast<T>(1.1427268433179338)},
+    };
+    constexpr T TOL = static_cast<T>(Eps<T>::VALUE * 20);
+
+    for (const auto& c : CASES) {
+        const T actual = arms::maths::complex<T, TAN_PTR<T>, LOG5_PTR<T>, LN_PTR<T>, LOG3_PTR<T>>(c.x);
+        EXPECT_NEAR(actual, c.y, TOL);
+    }
+}
+
+TYPED_TEST(ComplexTest, EquivalenceClassRightBranchPositiveXGreaterThanOne) {
+    using T = TypeParam;
+    constexpr XY<T> CASES[] = {
+        {static_cast<T>(1.2), static_cast<T>(0.30379121027999106)},
+        {static_cast<T>(2.0), static_cast<T>(0.00013486627079233612)},
+        {static_cast<T>(3.0), static_cast<T>(0.21005849777402996)},
+        {static_cast<T>(5.0), static_cast<T>(1.04265983784566)},
+        {static_cast<T>(10.0), static_cast<T>(3.1853677949271244)},
+        {static_cast<T>(42.0), static_cast<T>(11.328732737421294)},
+    };
+    constexpr T TOL = static_cast<T>(Eps<T>::VALUE * 20);
+
+    for (const auto& c : CASES) {
+        const T actual = arms::maths::complex<T, TAN_PTR<T>, LOG5_PTR<T>, LN_PTR<T>, LOG3_PTR<T>>(c.x);
+        EXPECT_NEAR(actual, c.y, TOL);
+    }
+}
+
+TYPED_TEST(ComplexTest, BoundaryLeftBranchDiscontinuityPoint) {
     using T = TypeParam;
     constexpr auto PI = std::numbers::pi_v<T>;
 
     EXPECT_TRUE((std::isnan(arms::maths::complex<T, TAN_PTR<T>, LOG5_PTR<T>, LN_PTR<T>, LOG3_PTR<T>>(-PI / 2))));
 }
 
-TYPED_TEST(ComplexTest, TestRightBranchAgainstReferenceFormula) {
+TYPED_TEST(ComplexTest, BoundaryRightBranchSingularityAtOne) {
     using T = TypeParam;
-    constexpr T VALUES[] = {static_cast<T>(0.25), static_cast<T>(0.5),  static_cast<T>(0.75),
-                            static_cast<T>(1.2),  static_cast<T>(2.0),  static_cast<T>(3.0),
-                            static_cast<T>(5.0),  static_cast<T>(10.0), static_cast<T>(42.0)};
-    constexpr T TOL = static_cast<T>(Eps<T>::VALUE * 20);
 
-    for (const T value : VALUES) {
-        const long double x = static_cast<long double>(value);
-        const long double log5 = std::log(x) / std::log(static_cast<long double>(5.0));
-        const long double ln = std::log(x);
-        const long double log3 = std::log(x) / std::log(static_cast<long double>(3.0));
-        const long double diff = log5 / ln - log3;
-        const T expected = static_cast<T>((diff * diff / log5) * log3);
-
-        const T actual = arms::maths::complex<T, TAN_PTR<T>, LOG5_PTR<T>, LN_PTR<T>, LOG3_PTR<T>>(value);
-        EXPECT_NEAR(actual, expected, TOL);
-    }
+    EXPECT_TRUE((std::isnan(arms::maths::complex<T, TAN_PTR<T>, LOG5_PTR<T>, LN_PTR<T>, LOG3_PTR<T>>(static_cast<T>(1.0)))));
 }
 
-TYPED_TEST(ComplexTest, TestRightBranchSingularityAtOne) {
+TYPED_TEST(ComplexTest, BoundaryNanAndInfinity) {
     using T = TypeParam;
-
-    EXPECT_TRUE(
-        (std::isnan(arms::maths::complex<T, TAN_PTR<T>, LOG5_PTR<T>, LN_PTR<T>, LOG3_PTR<T>>(static_cast<T>(1.0)))));
-}
-
-TYPED_TEST(ComplexTest, TestNanInput) {
-    using T = TypeParam;
+    constexpr auto INF = std::numeric_limits<T>::infinity();
     constexpr auto NaN = std::numeric_limits<T>::quiet_NaN();
 
     EXPECT_TRUE((std::isnan(arms::maths::complex<T, TAN_PTR<T>, LOG5_PTR<T>, LN_PTR<T>, LOG3_PTR<T>>(NaN))));
+    EXPECT_TRUE((std::isnan(arms::maths::complex<T, TAN_PTR<T>, LOG5_PTR<T>, LN_PTR<T>, LOG3_PTR<T>>(INF))));
+    EXPECT_TRUE((std::isnan(arms::maths::complex<T, TAN_PTR<T>, LOG5_PTR<T>, LN_PTR<T>, LOG3_PTR<T>>(-INF))));
 }
 
-TEST(ComplexTestIntegral, TestIntegralInput) {
-    EXPECT_NEAR((arms::maths::complex<int, TAN_FLOAT_PTR, LOG5_FLOAT_PTR, LN_FLOAT_PTR, LOG3_FLOAT_PTR>(0)), 0.0f,
+TEST(ComplexTestIntegral, EquivalenceClassIntegralOverload) {
+    EXPECT_NEAR((arms::maths::complex<int, TAN_FLOAT_PTR, LOG5_FLOAT_PTR, LN_FLOAT_PTR, LOG3_FLOAT_PTR>(0)),
+                0.0f,
                 Eps<float>::VALUE);
-
-    const float x = 5.0f;
-    const float log5 = std::log(x) / std::log(5.0f);
-    const float ln = std::log(x);
-    const float log3 = std::log(x) / std::log(3.0f);
-    const float diff = log5 / ln - log3;
-    const float expected = (diff * diff / log5) * log3;
-    EXPECT_NEAR((arms::maths::complex<int, TAN_FLOAT_PTR, LOG5_FLOAT_PTR, LN_FLOAT_PTR, LOG3_FLOAT_PTR>(5)), expected,
+    EXPECT_NEAR((arms::maths::complex<int, TAN_FLOAT_PTR, LOG5_FLOAT_PTR, LN_FLOAT_PTR, LOG3_FLOAT_PTR>(5)),
+                1.04265983784566f,
                 Eps<float>::VALUE * 20);
 }
