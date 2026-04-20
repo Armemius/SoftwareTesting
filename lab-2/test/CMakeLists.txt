@@ -43,3 +43,10 @@ add_executable(test_log
 target_link_libraries(test_log PRIVATE GTest::gtest_main)
 target_include_directories(test_log PRIVATE "${CMAKE_SOURCE_DIR}/include")
 gtest_discover_tests(test_log)
+
+add_executable(test_complex
+    test_complex.cpp
+)
+target_link_libraries(test_complex PRIVATE GTest::gtest_main)
+target_include_directories(test_complex PRIVATE "${CMAKE_SOURCE_DIR}/include")
+gtest_discover_tests(test_complex)
