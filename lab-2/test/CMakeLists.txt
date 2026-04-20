@@ -22,3 +22,10 @@ add_executable(test_ln
 target_link_libraries(test_ln PRIVATE GTest::gtest_main)
 target_include_directories(test_ln PRIVATE "${CMAKE_SOURCE_DIR}/include")
 gtest_discover_tests(test_ln)
+
+add_executable(test_cos
+    test_cos.cpp
+)
+target_link_libraries(test_cos PRIVATE GTest::gtest_main)
+target_include_directories(test_cos PRIVATE "${CMAKE_SOURCE_DIR}/include")
+gtest_discover_tests(test_cos)
