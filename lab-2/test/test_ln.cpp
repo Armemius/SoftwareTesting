@@ -31,7 +31,7 @@ TYPED_TEST(LnTest, EquivalenceClassPositiveLessThanOne) {
     };
     constexpr T TOL = static_cast<T>(Eps<T>::VALUE * 5);
 
-    for (const auto& c : CASES) {
+    for (const auto &c : CASES) {
         const T actual = ln(c.x);
         EXPECT_LT(actual, static_cast<T>(0.0));
         EXPECT_NEAR(actual, c.y, TOL);
@@ -55,7 +55,7 @@ TYPED_TEST(LnTest, EquivalenceClassPositiveGreaterThanOne) {
     };
     constexpr T TOL = static_cast<T>(Eps<T>::VALUE * 5);
 
-    for (const auto& c : CASES) {
+    for (const auto &c : CASES) {
         const T actual = ln(c.x);
         EXPECT_GT(actual, static_cast<T>(0.0));
         EXPECT_NEAR(actual, c.y, TOL);
@@ -101,7 +101,7 @@ TYPED_TEST(LnTest, BoundaryCharacteristicPoints) {
 }
 
 TEST(LnTestIntegral, EquivalenceClassIntegralOverload) {
-    EXPECT_NEAR(ln(1), 0.0f, Eps<float>::VALUE * 5);
-    EXPECT_NEAR(ln(2), 0.6931471805599453f, Eps<float>::VALUE * 5);
-    EXPECT_NEAR(ln(10), 2.302585092994046f, Eps<float>::VALUE * 5);
+    EXPECT_NEAR(ln(1), 0.0F, Eps<float>::VALUE * 5);
+    EXPECT_NEAR(ln(2), 0.6931471805599453F, Eps<float>::VALUE * 5);
+    EXPECT_NEAR(ln(10), 2.302585092994046F, Eps<float>::VALUE * 5);
 }

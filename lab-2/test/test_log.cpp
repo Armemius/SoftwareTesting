@@ -4,11 +4,27 @@
 #include <limits>
 #include <type_traits>
 
+#include "csv_stub_table.hpp"
+
 #include <maths/defaults.hpp>
-#include <maths/ln.hpp>
 #include <maths/log.hpp>
 
 using arms::maths::precision::Eps;
+using test::stub::CsvStubTable;
+
+namespace {
+
+CsvStubTable &ln_stub_table() {
+    static CsvStubTable table(std::string(STUB_DATA_DIR) + "/ln_for_log_stub.csv");
+    return table;
+}
+
+template <typename T>
+T ln_stub_for_log(T x, size_t) {
+    return static_cast<T>(ln_stub_table().lookup(static_cast<double>(x)));
+}
+
+}  // namespace
 
 template <typename T>
 class LogTest : public testing::Test {};
@@ -17,9 +33,9 @@ using FloatingPointTypes = testing::Types<float, double, long double>;
 TYPED_TEST_SUITE(LogTest, FloatingPointTypes);
 
 template <typename T>
-inline constexpr auto LN_PTR = static_cast<T (*)(T, size_t)>(arms::maths::ln);
+inline constexpr auto LN_PTR = ln_stub_for_log<T>;
 
-constexpr auto LN_FLOAT_PTR = static_cast<float (*)(float, size_t)>(arms::maths::ln);
+constexpr auto LN_FLOAT_PTR = ln_stub_for_log<float>;
 
 template <typename T>
 struct XYZ {
@@ -38,7 +54,7 @@ TYPED_TEST(LogTest, EquivalenceClassPositiveLessThanOne) {
     };
     constexpr T TOL = static_cast<T>(Eps<T>::VALUE * 5);
 
-    for (const auto& c : CASES) {
+    for (const auto &c : CASES) {
         const T log3_actual = arms::maths::log_3<T, LN_PTR<T>>(c.x);
         const T log5_actual = arms::maths::log_5<T, LN_PTR<T>>(c.x);
 
@@ -67,7 +83,7 @@ TYPED_TEST(LogTest, EquivalenceClassPositiveGreaterThanOne) {
     };
     constexpr T TOL = static_cast<T>(Eps<T>::VALUE * 5);
 
-    for (const auto& c : CASES) {
+    for (const auto &c : CASES) {
         const T log3_actual = arms::maths::log_3<T, LN_PTR<T>>(c.x);
         const T log5_actual = arms::maths::log_5<T, LN_PTR<T>>(c.x);
 
@@ -116,11 +132,11 @@ TYPED_TEST(LogTest, BoundaryNanAndInfinity) {
 }
 
 TEST(LogTestIntegral, EquivalenceClassIntegralOverload) {
-    EXPECT_NEAR((arms::maths::log_3<int, LN_FLOAT_PTR>(1)), 0.0f, Eps<float>::VALUE * 5);
-    EXPECT_NEAR((arms::maths::log_3<int, LN_FLOAT_PTR>(3)), 1.0f, Eps<float>::VALUE * 5);
-    EXPECT_NEAR((arms::maths::log_3<int, LN_FLOAT_PTR>(9)), 2.0f, Eps<float>::VALUE * 5);
+    EXPECT_NEAR((arms::maths::log_3<int, LN_FLOAT_PTR>(1)), 0.0F, Eps<float>::VALUE * 5);
+    EXPECT_NEAR((arms::maths::log_3<int, LN_FLOAT_PTR>(3)), 1.0F, Eps<float>::VALUE * 5);
+    EXPECT_NEAR((arms::maths::log_3<int, LN_FLOAT_PTR>(9)), 2.0F, Eps<float>::VALUE * 5);
 
-    EXPECT_NEAR((arms::maths::log_5<int, LN_FLOAT_PTR>(1)), 0.0f, Eps<float>::VALUE * 5);
-    EXPECT_NEAR((arms::maths::log_5<int, LN_FLOAT_PTR>(5)), 1.0f, Eps<float>::VALUE * 5);
-    EXPECT_NEAR((arms::maths::log_5<int, LN_FLOAT_PTR>(25)), 2.0f, Eps<float>::VALUE * 5);
+    EXPECT_NEAR((arms::maths::log_5<int, LN_FLOAT_PTR>(1)), 0.0F, Eps<float>::VALUE * 5);
+    EXPECT_NEAR((arms::maths::log_5<int, LN_FLOAT_PTR>(5)), 1.0F, Eps<float>::VALUE * 5);
+    EXPECT_NEAR((arms::maths::log_5<int, LN_FLOAT_PTR>(25)), 2.0F, Eps<float>::VALUE * 5);
 }

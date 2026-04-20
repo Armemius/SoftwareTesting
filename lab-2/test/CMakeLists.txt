@@ -7,6 +7,7 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
+set(STUB_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/data/top_down")
 
 # Math tests
 add_executable(test_sin
@@ -28,6 +29,7 @@ add_executable(test_cos
 )
 target_link_libraries(test_cos PRIVATE GTest::gtest_main)
 target_include_directories(test_cos PRIVATE "${CMAKE_SOURCE_DIR}/include")
+target_compile_definitions(test_cos PRIVATE STUB_DATA_DIR="${STUB_DATA_DIR}")
 gtest_discover_tests(test_cos)
 
 add_executable(test_tan
@@ -35,6 +37,7 @@ add_executable(test_tan
 )
 target_link_libraries(test_tan PRIVATE GTest::gtest_main)
 target_include_directories(test_tan PRIVATE "${CMAKE_SOURCE_DIR}/include")
+target_compile_definitions(test_tan PRIVATE STUB_DATA_DIR="${STUB_DATA_DIR}")
 gtest_discover_tests(test_tan)
 
 add_executable(test_log
@@ -42,6 +45,7 @@ add_executable(test_log
 )
 target_link_libraries(test_log PRIVATE GTest::gtest_main)
 target_include_directories(test_log PRIVATE "${CMAKE_SOURCE_DIR}/include")
+target_compile_definitions(test_log PRIVATE STUB_DATA_DIR="${STUB_DATA_DIR}")
 gtest_discover_tests(test_log)
 
 add_executable(test_complex
@@ -49,4 +53,5 @@ add_executable(test_complex
 )
 target_link_libraries(test_complex PRIVATE GTest::gtest_main)
 target_include_directories(test_complex PRIVATE "${CMAKE_SOURCE_DIR}/include")
+target_compile_definitions(test_complex PRIVATE STUB_DATA_DIR="${STUB_DATA_DIR}")
 gtest_discover_tests(test_complex)

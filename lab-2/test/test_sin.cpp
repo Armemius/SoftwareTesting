@@ -7,8 +7,8 @@
 #include <maths/defaults.hpp>
 #include <maths/sin.hpp>
 
-using arms::maths::precision::Eps;
 using arms::maths::sin;
+using arms::maths::precision::Eps;
 
 template <typename T>
 class SinTest : public testing::Test {};
@@ -35,7 +35,7 @@ TYPED_TEST(SinTest, EquivalenceClassFiniteValuesReferenceTable) {
         {static_cast<T>(4.8), static_cast<T>(-0.9961646088358407)},
     };
 
-    for (const auto& c : CASES) {
+    for (const auto &c : CASES) {
         EXPECT_NEAR(sin(c.x), c.y, Eps<T>::VALUE);
     }
 }
@@ -79,7 +79,7 @@ TYPED_TEST(SinTest, BoundaryNanAndInfinity) {
 }
 
 TEST(SinTestIntegral, EquivalenceClassIntegralOverload) {
-    EXPECT_NEAR(sin(0), 0.0f, Eps<float>::VALUE);
-    EXPECT_NEAR(sin(1), 0.8414709848078965f, Eps<float>::VALUE);
-    EXPECT_NEAR(sin(-1), -0.8414709848078965f, Eps<float>::VALUE);
+    EXPECT_NEAR(sin(0), 0.0F, Eps<float>::VALUE);
+    EXPECT_NEAR(sin(1), 0.8414709848078965F, Eps<float>::VALUE);
+    EXPECT_NEAR(sin(-1), -0.8414709848078965F, Eps<float>::VALUE);
 }
