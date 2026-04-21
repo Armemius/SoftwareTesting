@@ -78,7 +78,13 @@ $$
 В текущей реализации и тестах используются следующие функции: \texttt{sin}, \texttt{cos}, \texttt{tan}, \texttt{ln}, \texttt{log\_3}, \texttt{log\_5}, \texttt{complex}.
 
 \subsection*{Обоснование покрытия}
-\subsubsection*{Функция \texttt{complex}}
+\subsubsection*{Стратегия интеграционного тестирования}
+Для тестирования системы функций была выбрана стратегия Top-Bottom, так как реализовать
+заглушки для функций целесообразнее и проще, нежели драйвера вышестоящих функций. Достаточно
+просто заменить какую-либо из функций на её табличную заглушку. При тестировании реальные вызовы
+функций заменяются на заглушки использующие табличные значения
+
+\subsubsection*{Система функций}
 \begin{enumerate}
     \item Классы эквивалентности:
           \begin{itemize}
@@ -95,6 +101,31 @@ $$
               \item Перегрузка для целых типов
           \end{itemize}
 \end{enumerate}
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{f} & \textbf{Вход} & \textbf{Ожидаемый результат} \\
+        \hline
+        \texttt{complex} & $-2.0$ & $-7.0$ \\
+        \hline
+        \texttt{complex} & $-0.5$ & $-1.5$ \\
+        \hline
+        \texttt{complex} & $0.0$ & $0.25$ \\
+        \hline
+        \texttt{complex} & $0.5$ & $2.0583673469387755$ \\
+        \hline
+        \texttt{complex} & $2.0$ & $6.797819492680379 \cdot 10^{-5}$ \\
+        \hline
+        \texttt{complex} & $5.0$ & $1.0274355640600286$ \\
+        \hline
+        \texttt{complex} & $-\pi/2$ & \texttt{NaN} \\
+        \hline
+        \texttt{complex} & $1.0$ & \texttt{NaN} \\
+        \hline
+        \texttt{complex} & $+\infty$ & \texttt{NaN} \\
+        \hline
+    \end{tabular}
+\end{center}
 
 \subsubsection*{Функция \texttt{cos}}
 \begin{enumerate}
@@ -111,6 +142,29 @@ $$
               \item Перегрузка для целых типов
           \end{itemize}
 \end{enumerate}
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{f} & \textbf{Вход} & \textbf{Ожидаемый результат} \\
+        \hline
+        \texttt{cos} & $-1.0$ & $1.234$ \\
+        \hline
+        \texttt{cos} & $0.0$ & $0.321$ \\
+        \hline
+        \texttt{cos} & $1.0$ & $-0.654$ \\
+        \hline
+        \texttt{cos} & $\pi/2$ & $0.0$ \\
+        \hline
+        \texttt{cos} & $\pi$ & $-0.7$ \\
+        \hline
+        \texttt{cos} & $2\pi$ & $0.321$ \\
+        \hline
+        \texttt{cos} & \texttt{NaN} & \texttt{NaN} \\
+        \hline
+        \texttt{cos} & $+\infty$ & \texttt{NaN} \\
+        \hline
+    \end{tabular}
+\end{center}
 
 \subsubsection*{Функция \texttt{ln}}
 \begin{enumerate}
@@ -129,6 +183,29 @@ $$
               \item Перегрузка для целых типов
           \end{itemize}
 \end{enumerate}
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{f} & \textbf{Вход} & \textbf{Ожидаемый результат} \\
+        \hline
+        \texttt{ln} & $0.1$ & $-2.3025850929940455$ \\
+        \hline
+        \texttt{ln} & $0.5$ & $-0.6931471805599453$ \\
+        \hline
+        \texttt{ln} & $1.0$ & $0.0$ \\
+        \hline
+        \texttt{ln} & $2.0$ & $0.6931471805599453$ \\
+        \hline
+        \texttt{ln} & $10.0$ & $2.302585092994046$ \\
+        \hline
+        \texttt{ln} & $0.0$ & $-\infty$ \\
+        \hline
+        \texttt{ln} & $-1.0$ & \texttt{NaN} \\
+        \hline
+        \texttt{ln} & $+\infty$ & $+\infty$ \\
+        \hline
+    \end{tabular}
+\end{center}
 
 \subsubsection*{Функции \texttt{log\_3} и \texttt{log\_5}}
 \begin{enumerate}
@@ -146,6 +223,48 @@ $$
               \item Перегрузка для целых типов
           \end{itemize}
 \end{enumerate}
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{f} & \textbf{Вход} & \textbf{Ожидаемый результат} \\
+        \hline
+        \texttt{log\_3} & $0.5$ & $-0.6309297535714574$ \\
+        \hline
+        \texttt{log\_3} & $1.0$ & $0.0$ \\
+        \hline
+        \texttt{log\_3} & $3.0$ & $1.0$ \\
+        \hline
+        \texttt{log\_3} & $9.0$ & $2.0$ \\
+        \hline
+        \texttt{log\_3} & $0.0$ & $-\infty$ \\
+        \hline
+        \texttt{log\_3} & $-1.0$ & \texttt{NaN} \\
+        \hline
+        \texttt{log\_3} & $+\infty$ & $+\infty$ \\
+        \hline
+    \end{tabular}
+\end{center}
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{f} & \textbf{Вход} & \textbf{Ожидаемый результат} \\
+        \hline
+        \texttt{log\_5} & $0.5$ & $-0.43067655807339306$ \\
+        \hline
+        \texttt{log\_5} & $1.0$ & $0.0$ \\
+        \hline
+        \texttt{log\_5} & $5.0$ & $1.0$ \\
+        \hline
+        \texttt{log\_5} & $25.0$ & $2.0$ \\
+        \hline
+        \texttt{log\_5} & $0.0$ & $-\infty$ \\
+        \hline
+        \texttt{log\_5} & $-1.0$ & \texttt{NaN} \\
+        \hline
+        \texttt{log\_5} & $+\infty$ & $+\infty$ \\
+        \hline
+    \end{tabular}
+\end{center}
 
 \subsubsection*{Функция \texttt{sin}}
 \begin{enumerate}
@@ -162,6 +281,29 @@ $$
               \item Перегрузка для целых типов
           \end{itemize}
 \end{enumerate}
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{f} & \textbf{Вход} & \textbf{Ожидаемый результат} \\
+        \hline
+        \texttt{sin} & $-1.0$ & $-0.8414709848078965$ \\
+        \hline
+        \texttt{sin} & $0.0$ & $0.0$ \\
+        \hline
+        \texttt{sin} & $1.0$ & $0.8414709848078965$ \\
+        \hline
+        \texttt{sin} & $\pi/2$ & $1.0$ \\
+        \hline
+        \texttt{sin} & $-\pi/2$ & $-1.0$ \\
+        \hline
+        \texttt{sin} & $\pi$ & $0.0$ \\
+        \hline
+        \texttt{sin} & \texttt{NaN} & \texttt{NaN} \\
+        \hline
+        \texttt{sin} & $+\infty$ & \texttt{NaN} \\
+        \hline
+    \end{tabular}
+\end{center}
 
 \subsubsection*{Функция \texttt{tan}}
 \begin{enumerate}
@@ -180,5 +322,67 @@ $$
               \item Перегрузка для целых типов
           \end{itemize}
 \end{enumerate}
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{f} & \textbf{Вход} & \textbf{Ожидаемый результат} \\
+        \hline
+        \texttt{tan} & $-1.0$ & $-0.5$ \\
+        \hline
+        \texttt{tan} & $0.0$ & $0.0$ \\
+        \hline
+        \texttt{tan} & $1.0$ & $0.5$ \\
+        \hline
+        \texttt{tan} & $2.0$ & $6.0$ \\
+        \hline
+        \texttt{tan} & $\pi/2$ & \texttt{NaN} \\
+        \hline
+        \texttt{tan} & $-\pi/2$ & \texttt{NaN} \\
+        \hline
+        \texttt{tan} & \texttt{NaN} & \texttt{NaN} \\
+        \hline
+        \texttt{tan} & $+\infty$ & \texttt{NaN} \\
+        \hline
+    \end{tabular}
+\end{center}
 
+\subsection*{Графики полученных функций}
+\begin{center}
+    \includegraphics[width=0.75\textwidth]{assets/complex.png} \\
+    \footnotesize{График системы функций}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=0.75\textwidth]{assets/sin.png} \\
+    \footnotesize{График $\sin x$}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=0.75\textwidth]{assets/cos.png} \\
+    \footnotesize{График $\cos x$}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=0.75\textwidth]{assets/tan.png} \\
+    \footnotesize{График $\tan x$}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=0.75\textwidth]{assets/ln.png} \\
+    \footnotesize{График $\ln x$}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=0.75\textwidth]{assets/log_3.png} \\
+    \footnotesize{График $\log_3 x$}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=0.75\textwidth]{assets/log_5.png} \\
+    \footnotesize{График $\log_5 x$}
+\end{center}
+\pagebreak
+\section*{Выводы}
+Я познакомился с методами и стратегиями интеграционного тестирования и разработал
+тестовые покрытие для системы функций
 \end{document}
