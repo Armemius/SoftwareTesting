@@ -1,0 +1,4 @@
+config,cost_usd,users,load_rpm,avg_response_ms,p95_response_ms,max_response_ms,throughput_rpm,error_percent,result
+1,5400,10,400,612,704,748,396.2,0.0,fail
+2,7700,10,400,474,592,641,399.1,0.0,pass
+3,9400,10,400,389,486,531,399.5,0.0,pass
