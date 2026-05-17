@@ -1,0 +1,236 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{graphicx, setspace, amsmath}
+\usepackage{array,longtable,tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+\usepackage[
+top = 1.25cm,
+bottom = 2.0cm,
+left = 1.7cm,
+right = 1.7cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+
+\renewcommand{\arraystretch}{1.18}
+\setlength{\tabcolsep}{4pt}
+\sloppy
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    {
+        \scshape
+        Федеральное государственное автономное образовательное учреждение высшего образования
+        \par
+        \textbf{«Научно-образовательная корпорация ИТМО»}
+        \par
+        \vspace*{1cm}
+        Факультет Программной Инженерии и Компьютерной Техники
+        \par
+    }
+    \vspace*{0.6cm}
+    \includegraphics[width=\textwidth]{logo.png}
+    {
+        \Large
+        \textbf{Лабораторная работа по\\<<Тестированию программного обеспечения>> №3}
+        \par
+        \normalsize
+        \vspace*{0.75cm}
+        \textbf{Вариант 9999}
+        \par
+    }
+    \vfill
+    \hfill\begin{minipage}{\dimexpr\textwidth-7.8cm}
+        \textbf{Выполнил:}\par
+        Степанов Арсений Алексеевич\par
+        \vspace*{0.15cm}
+        \textbf{Группа:}\par
+        P3318\par
+        \vspace*{0.15cm}
+        \textbf{Преподаватель:}\par
+        Егошин Алексей Васильевич\par
+    \end{minipage}
+    \vfill
+    Санкт-Петербург, \the\year{}г.
+\end{titlepage}
+
+\section*{Задание}
+Вариант №9999: Statcounter.com. Detailed visitor statistics and a choice of graphical counters.
+An invisible counter is also available. \url{http://statcounter.com/}
+
+\subsection*{Требования к выполнению работы}
+\begin{enumerate}
+    \item Тестовое покрытие должно быть сформировано на основании набора прецедентов использования сайта.
+    \item Тестирование должно осуществляться автоматически -- с помощью системы автоматизированного тестирования Selenium.
+    \item Шаблоны тестов должны формироваться при помощи Selenium IDE и исполняться при помощи Selenium RC в браузерах Firefox и Chrome.
+    \item Предполагается, что тестируемый сайт использует динамическую генерацию элементов на странице, т.е. выбор элемента в DOM должен осуществляться не на основании его ID, а с помощью XPath.
+\end{enumerate}
+
+\subsection*{Требования к содержанию отчёта}
+\begin{enumerate}
+    \item Текст задания.
+    \item UseCase-диаграмма с прецедентами использования тестируемого сайта.
+    \item CheckList тестового покрытия.
+    \item Описание набора тестовых сценариев.
+    \item Результаты тестирования.
+    \item Выводы.
+\end{enumerate}
+
+\newpage
+\section*{Выполнение}
+\subsection*{Use-Cases}
+\subsubsection*{UseCase-диаграмма}
+\begin{center}
+\begin{tikzpicture}[
+    actor/.style={draw, rounded corners, align=center, minimum width=2.8cm, minimum height=0.8cm},
+    usecase/.style={draw, ellipse, align=center, minimum width=3.4cm, minimum height=0.9cm},
+    rel/.style={-{Latex[length=2mm]}, thick}
+]
+    \node[actor] (anon) {Анонимный\\пользователь};
+    \node[actor, below=5.6cm of anon] (user) {Владелец\\проекта};
+
+    \node[usecase, right=2.8cm of anon] (view) {Просмотреть\\главную};
+    \node[usecase, below=0.9cm of view] (signup) {Изучить\\функции и цены};
+    \node[usecase, below=0.9cm of signup] (login) {Изучить отзывы\\и истории};
+    \node[usecase, below=0.9cm of login] (demo) {Выбрать тип\\счётчика};
+    \node[usecase, below=0.9cm of demo] (counter) {Сравнить\\аналитику};
+
+    \node[usecase, right=3.4cm of login] (reports) {Открыть\\справку};
+    \node[usecase, above=0.9cm of reports] (filters) {Изучить\\установку};
+    \node[usecase, below=0.9cm of reports] (export) {Изучить\\миссию};
+
+    \draw[rel] (anon) -- (view);
+    \draw[rel] (anon) -- (signup);
+    \draw[rel] (anon) -- (login);
+    \draw[rel] (anon) -- (demo);
+    \draw[rel] (anon) -- (counter);
+    \draw[rel] (user) -- (reports);
+    \draw[rel] (user) -- (filters);
+    \draw[rel] (user) -- (export);
+    \draw[rel] (demo) -- (reports);
+    \draw[rel] (reports) -- (filters);
+    \draw[rel] (reports) -- (export);
+\end{tikzpicture}
+\end{center}
+
+\subsubsection*{Прецеденты использования}
+\begin{longtable}{|p{2.0cm}|p{3.2cm}|p{9.8cm}|}
+\hline
+\textbf{ID} & \textbf{Актор} & \textbf{Описание} \\
+\hline
+UC-01 & Анонимный пользователь & Пользователь открывает главную страницу и проверяет доступность основной навигации продукта. \\
+\hline
+UC-02 & Потенциальный клиент & Пользователь изучает возможности сервиса, тарифы и принцип подключения счётчика к сайту. \\
+\hline
+UC-03 & Потенциальный клиент & Пользователь просматривает отзывы клиентов и истории успешного использования Statcounter. \\
+\hline
+UC-04 & Владелец сайта & Пользователь изучает варианты счётчика: видимый hit counter, невидимый web tracker и web stats. \\
+\hline
+UC-05 & Владелец сайта & Пользователь сравнивает Statcounter с Google Analytics и изучает IP Address Tracker. \\
+\hline
+UC-06 & Пользователь сервиса & Пользователь открывает справочные разделы Installation Guides, FAQ и Using Statcounter. \\
+\hline
+UC-07 & Пользователь сервиса & Пользователь просматривает информацию о миссии компании и надёжности сервиса. \\
+\hline
+UC-08 & Анонимный пользователь & Пользователь открывает страницу входа из навигации, но в автоматическом наборе проверяется только публично доступная часть сайта. \\
+\hline
+\end{longtable}
+
+\subsection*{Описание набора тестовых сценариев}
+Шаблон Selenium IDE расположен в файле \texttt{tests/statcounter.side}. Для запуска через
+Selenium RC подготовлен файл \texttt{tests/selenium-rc/StatcounterChromeRcTest.java}. В тестах
+используются только XPath-локаторы вида:
+\begin{verbatim}
+//h1[contains(normalize-space(.),'Features')]
+//*[contains(normalize-space(.),'invisible')]
+//input[@name='search_text']
+\end{verbatim}
+Параметры тестового стенда:
+\begin{itemize}
+    \item Google Chrome 145.0.7632.75, разрешение 1280$\times$800.
+\end{itemize}
+По уточнению к работе тестирование Firefox не выполнялось.
+
+\begin{longtable}{|p{1.5cm}|p{3.9cm}|p{8.8cm}|}
+\hline
+\textbf{ID} & \textbf{Сценарий} & \textbf{Действия и ожидаемый результат} \\
+\hline
+TC-01 & Главная страница & Открыть \url{https://statcounter.com/}. Проверить основной заголовок и ссылку Log In. \\
+\hline
+TC-02 & Features & Открыть \url{https://statcounter.com/features/}. Проверить заголовок Features и упоминание Session Replay. \\
+\hline
+TC-03 & Pricing & Открыть \url{https://statcounter.com/pricing/}. Проверить заголовок про flexible pricing и наличие Premium-тарифа. \\
+\hline
+TC-04 & How it works & Открыть \url{https://statcounter.com/how-it-works/}. Проверить описание принципа работы и шаг Insert the code. \\
+\hline
+TC-05 & Customer testimonials & Открыть \url{https://statcounter.com/about/recommendations/}. Проверить блок Our customers и Customer testimonials. \\
+\hline
+TC-06 & Success Stories & Открыть \url{https://statcounter.com/success-stories/}. Проверить заголовок Success Stories и ссылки View Story. \\
+\hline
+TC-07 & Free Hit Counter & Открыть \url{https://statcounter.com/free-hit-counter/}. Проверить заголовок Free Hit Counter и упоминание invisible-режима. \\
+\hline
+TC-08 & Invisible Web Tracker & Открыть \url{https://statcounter.com/free-invisible-web-tracker/}. Проверить заголовок Free Invisible Web Tracker и описание Visitor Tracker / Site Tracker. \\
+\hline
+TC-09 & Free Web Stats & Открыть \url{https://statcounter.com/free-web-stats/}. Проверить заголовок Free Web Stats и список webstats. \\
+\hline
+TC-10 & Statcounter vs Google Analytics & Открыть страницу сравнения. Проверить заголовок Statcounter vs Google Analytics и текст про detailed visitor view / Google Ads. \\
+\hline
+TC-11 & Installation Guides & Открыть \url{https://statcounter.com/install-guides/}. Проверить блок Installation Guides for Popular Platforms и список платформ. \\
+\hline
+TC-12 & FAQ & Открыть \url{https://statcounter.com/support/faq/}. Проверить раздел FAQ и категорию General. \\
+\hline
+TC-13 & Mission & Открыть \url{https://statcounter.com/about/mission/}. Проверить тезисы Fast, responsive и Reliable Service. \\
+\hline
+TC-14 & IP Address Tracker & Открыть \url{https://statcounter.com/ip-address-tracker/}. Проверить IP ADDRESS TRACKER и Detect click fraud. \\
+\hline
+TC-15 & Using Statcounter & Открыть \url{https://statcounter.com/support/using-statcounter/}. Проверить раздел Using Statcounter и ссылку Analyze Your First Visitors. \\
+\hline
+\end{longtable}
+
+\subsection*{Результаты тестирования}
+Тестовый набор подготовлен на основании Selenium IDE-шаблона и исполнен через Selenium RC
+в браузере Google Chrome 145.0.7632.75. Для всех проверок использовалось разрешение
+1280$\times$800.
+
+\begin{longtable}{|p{1.5cm}|p{3.0cm}|p{2.0cm}|p{7.0cm}|}
+\hline
+\textbf{ID} & \textbf{Браузер} & \textbf{Статус} & \textbf{Комментарий} \\
+\hline
+TC-01 & Chrome 145.0.7632.75 & Passed & Главная страница открывается, заголовок и Log In доступны. \\
+\hline
+TC-02 & Chrome 145.0.7632.75 & Passed & Страница Features и блок Session Replay доступны. \\
+\hline
+TC-03 & Chrome 145.0.7632.75 & Passed & Страница Pricing и Premium-тариф доступны. \\
+\hline
+TC-04 & Chrome 145.0.7632.75 & Passed & Страница How it works содержит шаг Insert the code. \\
+\hline
+TC-05 & Chrome 145.0.7632.75 & Passed & Страница отзывов клиентов отображается. \\
+\hline
+TC-06 & Chrome 145.0.7632.75 & Passed & Страница Success Stories содержит ссылки View Story. \\
+\hline
+TC-07 & Chrome 145.0.7632.75 & Passed & Free Hit Counter и invisible-режим доступны. \\
+\hline
+TC-08 & Chrome 145.0.7632.75 & Passed & Invisible Web Tracker и Visitor Tracker / Site Tracker доступны. \\
+\hline
+TC-09 & Chrome 145.0.7632.75 & Passed & Free Web Stats и список webstats доступны. \\
+\hline
+TC-10 & Chrome 145.0.7632.75 & Passed & Сравнение с Google Analytics открывается. \\
+\hline
+TC-11 & Chrome 145.0.7632.75 & Passed & Installation Guides и список платформ доступны. \\
+\hline
+TC-12 & Chrome 145.0.7632.75 & Passed & FAQ и категория General доступны. \\
+\hline
+TC-13 & Chrome 145.0.7632.75 & Passed & Страница Mission отображает тезисы о скорости и надёжности. \\
+\hline
+TC-14 & Chrome 145.0.7632.75 & Passed & IP Address Tracker и Detect click fraud доступны. \\
+\hline
+TC-15 & Chrome 145.0.7632.75 & Passed & Using Statcounter и Analyze Your First Visitors доступны. \\
+\hline
+\end{longtable}
+
+Итог: выполнено 15 запусков сценариев в Google Chrome 145.0.7632.75.
+Успешно завершено 15 запусков, критических дефектов не обнаружено.
+
+\end{document}

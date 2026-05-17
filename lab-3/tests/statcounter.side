@@ -1,0 +1,489 @@
+{
+  "id": "89ed7fb7-3274-4c09-95a7-5bdb1de4b40a",
+  "version": "2.0",
+  "name": "Statcounter lab-3 Chrome",
+  "url": "https://statcounter.com",
+  "tests": [
+    {
+      "id": "tc-01-home",
+      "name": "TC-01 Home page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//h1[contains(normalize-space(.),'Understand your visitors')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//a[contains(normalize-space(.),'Log In')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-02-features",
+      "name": "TC-02 Features page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/features/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//h1[contains(normalize-space(.),'Features')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Session Replay')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-03-pricing",
+      "name": "TC-03 Pricing page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/pricing/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//h1[contains(normalize-space(.),'Flexible pricing')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Premium')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-04-how-it-works",
+      "name": "TC-04 How it works page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/how-it-works/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//h1[contains(normalize-space(.),'How does Statcounter work')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Insert the code')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-05-customer-testimonials",
+      "name": "TC-05 Customer testimonials page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/about/recommendations/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Our customers')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Customer testimonials')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-06-success-stories",
+      "name": "TC-06 Success stories page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/success-stories/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//h1[contains(normalize-space(.),'Success Stories')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'View Story')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-07-free-hit-counter",
+      "name": "TC-07 Free hit counter page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/free-hit-counter/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//h1[contains(normalize-space(.),'Free Hit Counter')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(translate(normalize-space(.),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'invisible')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-08-invisible-tracker",
+      "name": "TC-08 Invisible tracker page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/free-invisible-web-tracker/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//h1[contains(normalize-space(.),'Free Invisible Web Tracker')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Visitor Tracker') or contains(normalize-space(.),'Site Tracker')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-09-free-web-stats",
+      "name": "TC-09 Free web stats page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/free-web-stats/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//h1[contains(normalize-space(.),'Free Web Stats')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Configurable Summary Stats') or contains(normalize-space(.),'webstats')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-10-google-analytics-comparison",
+      "name": "TC-10 Google Analytics comparison",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/statcounter-vs-google-analytics/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//h1[contains(normalize-space(.),'Statcounter vs Google Analytics')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'detailed visitor view') or contains(normalize-space(.),'Google Ads')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-11-install-guides",
+      "name": "TC-11 Installation guides",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/install-guides/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Installation Guides for Popular Platforms')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'WordPress') or contains(normalize-space(.),'Shopify') or contains(normalize-space(.),'Wix')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-12-faq",
+      "name": "TC-12 FAQ page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/support/faq/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'FAQ')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'General')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-13-mission",
+      "name": "TC-13 Mission page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/about/mission/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Fast, responsive')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Reliable Service')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-14-ip-address-tracker",
+      "name": "TC-14 IP address tracker page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/ip-address-tracker/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'IP ADDRESS TRACKER')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Detect click fraud')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-15-using-statcounter",
+      "name": "TC-15 Using Statcounter support page",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/support/using-statcounter/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Using Statcounter')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Analyze Your First Visitors')]",
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "suites": [
+    {
+      "id": "suite-statcounter-chrome",
+      "name": "Statcounter Chrome UI suite",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 300,
+      "tests": [
+        "tc-01-home",
+        "tc-02-features",
+        "tc-03-pricing",
+        "tc-04-how-it-works",
+        "tc-05-customer-testimonials",
+        "tc-06-success-stories",
+        "tc-07-free-hit-counter",
+        "tc-08-invisible-tracker",
+        "tc-09-free-web-stats",
+        "tc-10-google-analytics-comparison",
+        "tc-11-install-guides",
+        "tc-12-faq",
+        "tc-13-mission",
+        "tc-14-ip-address-tracker",
+        "tc-15-using-statcounter"
+      ]
+    }
+  ],
+  "urls": [
+    "https://statcounter.com/"
+  ],
+  "plugins": [],
+  "delay": 100
+}
