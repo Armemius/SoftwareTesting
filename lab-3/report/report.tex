@@ -68,16 +68,6 @@ An invisible counter is also available. \url{http://statcounter.com/}
     \item Предполагается, что тестируемый сайт использует динамическую генерацию элементов на странице, т.е. выбор элемента в DOM должен осуществляться не на основании его ID, а с помощью XPath.
 \end{enumerate}
 
-\subsection*{Требования к содержанию отчёта}
-\begin{enumerate}
-    \item Текст задания.
-    \item UseCase-диаграмма с прецедентами использования тестируемого сайта.
-    \item CheckList тестового покрытия.
-    \item Описание набора тестовых сценариев.
-    \item Результаты тестирования.
-    \item Выводы.
-\end{enumerate}
-
 \newpage
 \section*{Выполнение}
 \subsection*{Use-Cases}
@@ -187,6 +177,16 @@ TC-14 & IP Address Tracker & Открыть \url{https://statcounter.com/ip-addr
 \hline
 TC-15 & Using Statcounter & Открыть \url{https://statcounter.com/support/using-statcounter/}. Проверить раздел Using Statcounter и ссылку Analyze Your First Visitors. \\
 \hline
+TC-16 & Pricing plan comparison & Открыть Pricing. Проверить наличие Basic, Premium, Premium Plus, бесплатного тарифа и функции Session Replay. \\
+\hline
+TC-17 & FAQ search field & Открыть FAQ. Найти поле поиска, ввести \texttt{installation}, проверить сохранение введённого значения и наличие категории Installation. \\
+\hline
+TC-18 & Installation catalog search & Открыть Installation Guides. Проверить A-Z каталог, ввести \texttt{wordpress} в поиск и проверить наличие WordPress-гайда. \\
+\hline
+TC-19 & Product information flow & Последовательно открыть How it works, Free Hit Counter и Free Invisible Web Tracker. Проверить ключевые заголовки и шаги подключения. \\
+\hline
+TC-20 & Google Analytics comparison details & Открыть страницу сравнения. Проверить блоки detailed visitor view, Google Ads и Support when you need it. \\
+\hline
 \end{longtable}
 
 \subsection*{Результаты тестирования}
@@ -228,9 +228,20 @@ TC-14 & Chrome 145.0.7632.75 & Passed & IP Address Tracker и Detect click fraud
 \hline
 TC-15 & Chrome 145.0.7632.75 & Passed & Using Statcounter и Analyze Your First Visitors доступны. \\
 \hline
+TC-16 & Chrome 145.0.7632.75 & Passed & Basic, Premium, Premium Plus и Session Replay доступны на странице тарифов. \\
+\hline
+TC-17 & Chrome 145.0.7632.75 & Passed & Поле поиска FAQ принимает запрос \texttt{installation}. \\
+\hline
+TC-18 & Chrome 145.0.7632.75 & Passed & Поле поиска Installation Guides принимает запрос \texttt{wordpress}. \\
+\hline
+TC-19 & Chrome 145.0.7632.75 & Passed & Сквозная цепочка product pages открывается корректно. \\
+\hline
+TC-20 & Chrome 145.0.7632.75 & Passed & Детальные блоки сравнения с Google Analytics доступны. \\
+\hline
 \end{longtable}
 
-Итог: выполнено 15 запусков сценариев в Google Chrome 145.0.7632.75.
-Успешно завершено 15 запусков, критических дефектов не обнаружено.
+\begin{center}
+    \includegraphics[width=\textwidth]{image.png}
+\end{center}
 
 \end{document}

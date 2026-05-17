@@ -453,6 +453,228 @@
           "value": ""
         }
       ]
+    },
+    {
+      "id": "tc-16-pricing-plan-comparison",
+      "name": "TC-16 Pricing plan comparison",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/pricing/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Basic')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Premium')]",
+          "value": ""
+        },
+        {
+          "id": "5",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Premium Plus')]",
+          "value": ""
+        },
+        {
+          "id": "6",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'FREE') or contains(normalize-space(.),'Free')]",
+          "value": ""
+        },
+        {
+          "id": "7",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Session Replay')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-17-faq-search-field",
+      "name": "TC-17 FAQ search field accepts query",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/support/faq/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//input[@name='search_text']",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "type",
+          "target": "xpath=//input[@name='search_text']",
+          "value": "installation"
+        },
+        {
+          "id": "5",
+          "command": "assertValue",
+          "target": "xpath=//input[@name='search_text']",
+          "value": "installation"
+        },
+        {
+          "id": "6",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Installation')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-18-installation-catalog-search",
+      "name": "TC-18 Installation catalog search field",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/install-guides/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'A - Z Installation Guides')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "type",
+          "target": "xpath=//input[@name='search_text']",
+          "value": "wordpress"
+        },
+        {
+          "id": "5",
+          "command": "assertValue",
+          "target": "xpath=//input[@name='search_text']",
+          "value": "wordpress"
+        },
+        {
+          "id": "6",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'WordPress') or contains(normalize-space(.),'Wordpress')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-19-product-flow",
+      "name": "TC-19 Product information flow",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/how-it-works/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Sign up')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Insert the code')]",
+          "value": ""
+        },
+        {
+          "id": "5",
+          "command": "open",
+          "target": "/free-hit-counter/",
+          "value": ""
+        },
+        {
+          "id": "6",
+          "command": "assertElementPresent",
+          "target": "xpath=//h1[contains(normalize-space(.),'Free Hit Counter')]",
+          "value": ""
+        },
+        {
+          "id": "7",
+          "command": "open",
+          "target": "/free-invisible-web-tracker/",
+          "value": ""
+        },
+        {
+          "id": "8",
+          "command": "assertElementPresent",
+          "target": "xpath=//h1[contains(normalize-space(.),'Free Invisible Web Tracker')]",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tc-20-google-analytics-comparison-details",
+      "name": "TC-20 Google Analytics comparison details",
+      "commands": [
+        {
+          "id": "1",
+          "command": "open",
+          "target": "/statcounter-vs-google-analytics/",
+          "value": ""
+        },
+        {
+          "id": "2",
+          "command": "setWindowSize",
+          "target": "1280x800",
+          "value": ""
+        },
+        {
+          "id": "3",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'detailed visitor view')]",
+          "value": ""
+        },
+        {
+          "id": "4",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Google Ads')]",
+          "value": ""
+        },
+        {
+          "id": "5",
+          "command": "assertElementPresent",
+          "target": "xpath=//*[contains(normalize-space(.),'Support when you need it')]",
+          "value": ""
+        }
+      ]
     }
   ],
   "suites": [
@@ -477,7 +699,12 @@
         "tc-12-faq",
         "tc-13-mission",
         "tc-14-ip-address-tracker",
-        "tc-15-using-statcounter"
+        "tc-15-using-statcounter",
+        "tc-16-pricing-plan-comparison",
+        "tc-17-faq-search-field",
+        "tc-18-installation-catalog-search",
+        "tc-19-product-flow",
+        "tc-20-google-analytics-comparison-details"
       ]
     }
   ],
